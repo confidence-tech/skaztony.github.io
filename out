@@ -1,0 +1,42 @@
+<!-- Start Single View -->
+                                <div role='tabpanel' id='list-view' class='single-grid-view tab-pane fade clearfix'>
+                            <?php
+                            $query = "SELECT * FROM assort";
+                            $res = mysqli_query($dbc, $query) or die('Query Error');
+                            while ($next=mysqli_fetch_array($res)) {
+                                if (empty($next['photo'])) {
+                                    $next['photo'] = 'nophoto.png';
+                                }
+                                $queryPhotoMain = "SELECT id, name_photo FROM photo WHERE id_tovar=" . $next['id'] . " AND main=1";
+                                $resPhotoMain = mysqli_query($dbc, $queryPhotoMain) or die('Query Photo Main');
+                                $nextPhoto = mysqli_fetch_array($resPhotoMain);
+
+                                $photo = $nextPhoto['name_photo'];
+                                    echo "
+                                    <!-- Start List Content-->
+                                    <div class='single__list__content clearfix'>
+                                        <div class='col-md-3 col-lg-3 col-sm-4 col-xs-12'>
+                                            <div class='list__thumb'>
+                                                <a href='product-details.php?id={$next['id']}'>
+                                                    <img src='images/tovar/{$photo}' alt='list images'>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class='col-md-9 col-lg-9 col-sm-8 col-xs-12'>
+                                            <div class='list__details__inner'>
+                                                <h2><a href='product-details.php?id={$next['id']}'>{$next['model']}</a></h2>
+                                                <p>{$next['fulldescription']}</p>
+                                                <span class='product__price'>$15.00</span>
+                                                <div class='shop__btn'>
+                                                    <a class='htc__btn' href='basket.php?id={$next['id']}&mode=add'><span class='ti-shopping-cart'></span>Add to Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End List Content-->
+
+                                <!-- End Single View -->";
+                            }
+                            ?>
+
+                                </div>
